@@ -1,0 +1,185 @@
+<html>
+<head>
+<title> CS640 Homework Template: PA1 Vedant Mahabaleshwarkar  </title>
+<style>
+<!--
+body{
+font-family: 'Trebuchet MS', Verdana;
+}
+p{
+font-family: 'Trebuchet MS', Times;
+margin: 10px 10px 15px 20px;
+}
+h3{
+margin: 5px;
+}
+h2{
+margin: 10px;
+}
+h1{
+margin: 10px 0px 0px 20px;
+}
+div.main-body{
+align:center;
+margin: 30px;
+}
+hr{
+margin:20px 0px 20px 0px;
+}
+-->
+</style>
+</head>
+<body>
+<center>
+<a href="http://www.bu.edu"><img border="0" src="http://www.cs.bu.edu/fac/betke/images/bu-logo.gif"
+width="119" height="120"></a>
+</center>
+<h1>Assignment Title</h1>
+<p> 
+ CS 640 Programming assignment 1 <br>
+ Vedant Mahabaleshwarkar  <br>
+ Suryateja Gudiguntla <br>
+    03/05/2019 
+</p>
+<div class="main-body">
+<hr>
+<h2> Problem Definition </h2>
+<p>
+Logistic Regression can work well for data that is linearly separable. If the data is not linearly separable the accuracy of Logistic Regression is not good. 
+To solve this problem, we are implementing a Neural Network with 1 hidden layer that uses Error Back-Propogation. 
+As a further step, to avoid fitting we implement L2 regularization. 
+</p>
+<hr>
+<h2> Method and Implementation </h2>
+<p>
+<h4>Training</h4>
+</p>
+<p>
+<br>An epoch of a Neural Network has the following stages</br>
+<br>1) Forward propogation:</br>
+<pre><code>
+z2 = np.dot(X,self.theta1) + self.bias1                         # net input to hidden layer
+a2 = np.tanh(z2)                                                # output from hidden layer
+z3 = np.dot(a2, self.theta2) + self.bias2                       # net input to output layer
+a3 = np.exp(z3) / np.sum(np.exp(z3), axis=1, keepdims=True)     # output from output layer (final output)
+</code></pre>  
+<br>2) Error Back-Propogation: </br>
+<pre><code>
+# Backpropagation
+beta3 = np.zeros_like(a3)                                 # Error vector at output layer
+beta2 = np.zeros_like(a2)                                 # Error vector at hiddne layer
+one_hot_y = np.zeros_like(a3)
+for i in range(X.shape[0]):                               # Expected output     
+    one_hot_y[i,y[i]] = 1
+            
+beta3 = a3 - one_hot_y
+</code></pre>
+<br>3) Updating Weights</br>
+<pre><code>
+# Compute gradients of model parameters
+dtheta2 = 1/m*(a2.T).dot(beta3)
+dbias2 = 1/m*np.sum(beta3, axis=0)
+          
+beta2 = np.multiply(beta3.dot(self.theta2.T),(1-np.power(a2,2)))
+            
+dtheta1 = 1/m*np.dot(X.T,beta2)
+dbias1 = 1/m*np.sum(beta2, axis=0)            
+
+            # Gradient descent parameter update
+self.theta1 -= alpha * dtheta1
+self.bias1 -= alpha * dbias1
+            
+self.theta2 -= alpha * dtheta2
+self.bias2 -= alpha * dbias2
+</code></pre>
+</p>
+<p>
+<h4>Testing</h4>
+</p>
+<p>
+<br>Prediction</br>
+<pre><code>
+def predict(self, X):
+    z2 = np.dot(X,self.theta1) + self.bias1
+    a2 = np.tanh(z2)
+    z3 = np.dot(a2, self.theta2) + self.bias2
+    a3 = np.exp(z3) / np.sum(np.exp(z3), axis=1, keepdims=True)
+    predictions = np.argmax(a3, axis = 1)
+    return predictions
+</code></pre>
+</p>
+<hr>
+<h2>Experiments</h2>
+<p>
+<br>1 ) We implement a basic neural network without regularization. The output for that network is given below. 
+</br>
+<br>
+2) We implement L2 regularization to prevent overfitting and see how it changes the output of the network. 
+</br>
+<br>
+3) We vary the learning rate from 0.005 to 0.1 and see how it affects the performance of the model
+</br>
+<br>4) We implement the Neural Network for a real life problem. i.e recognition of hand-written digits.</br>
+</p>
+<p>
+We evaluate the performance of the model using a confusion matrix and it's accuracy. </p>
+<hr>
+<h2> Tasks and Results </h2>
+<p> 
+<br>1) Neural Network with 1 hidden layer:</br>
+<br>A neural network with 1 hidden layer performs better than logistic regression. Especially if the data is not linearly separable.</br>
+<br>2) 5-fold round robin cross-validation</br>
+<br>5-fold cross validation allows us to divide the dataset into training data and test data such that we divide the data in 5 different folds.
+This means that the training set and testing sets are different each of the 5 times, and each time the model trains on a different training chunk,
+it's accuracy is improved. Giving a model that works best for all 5 folds of the data. </br>
+<figure><img src= "Linear 5 fold 1.JPG"><figcaption>Linear data with 5 fold</figcaption></figure>
+<figure><img src= "Non linear 5 fold 1.JPG"><figcaption>Non-Linear data with 5 fold</figcaption></figure>
+<br>3) Effect of change in learning rate on the accuracy of the model: </br>
+<br>We wrote a script that trained the neural network many times, but iterating over a set of learning rate values. We plotted a graph depicting accuracy
+vs learning rate to see the effect of a change in learning rate on the accuracy. The plot was shown in the results section earlier. </br>
+<figure><img src= "Accuracy.JPG"><figcaption>Graph of accuracy vs learning rate</figcaption></figure>
+<br>4) Overfitting and 3 techniques to reduce overfitting</br>
+<br>a) Cross-validation</br>
+<br>Cross validation folds the training data into further training and testing set. Thus, the model is trained and tested on multiple datasets and a model
+built such that it works well for all the training subsets, hence giving a generalized model and avoids overfitting.  </br>
+<br>b) Regularization</br>
+<br>Regularization ensures that the model is simple and not overfitted. l2  regularization encourages the sum of the squares of the parameters βi to be small.
+</br>
+<br>c) Bagging and Boosting</br>
+<br>Bagging trains a large number of "strong" learners in parallel. A strong learner is a model that's relatively unconstrained.
+Bagging then combines all the strong learners together in order to "smooth out" their predictions.</br>
+<br>Boosting trains a large number of "weak" learners in sequence.A weak learner is a constrained model (i.e. you could limit the max depth of each decision tree).
+Each one in the sequence focuses on learning from the mistakes of the one before it. Boosting then combines all the weak learners into a single strong learner.</br>
+<br>5) L2 regularization:</br>
+<br>In theory, L2 regularization prevents overfitting. However, since our Neural Network was not suffering from overfitting anyway, L2 regularization
+did not affect the performance much anyway. 
+</br>
+<figure><img src= "Non linear without L2.JPG"><figcaption>Non-Linear data without L2</figcaption></figure><br></br>
+<figure><img src= "Non linear with L2.JPG"><figcaption>Non-Linear data with L2</figcaption></figure>
+<br>6) Recognizing hand-written digits</br>
+<br>We implemented a Neural Network with 1 hidden layer(14 nodes) to recognize hand written digit and we were able to get and accuracy of 90% to 93%. 
+</br>
+<figure><img src= "Digit confusion matrix.JPG"><figcaption>Digit recognition</figcaption></figure>
+</p>
+<hr> 
+<h2> Conclusions </h2>
+<br>We can conclude that the accuracy of a Neural Network increases because of 5-fold cross-validation</br>
+<br>In theory, L2 regularization prevents overfitted. This could not be demonstrated very effectively in our experiment as we did not face the 
+problem of overfitting anyway.</br>
+<br>Increase in learning rate drastically affects learning rate till it increases upto 0.02, after that the growth in accuracy per growth in 
+learning rate is negligible.</br>
+<p>
+
+</p>
+<hr>
+<h2> Credits and Bibliography </h2>
+<p>
+<br><a href="https://elitedatascience.com/overfitting-in-machine-learning#how-to-prevent">Theory on overfitting</a></br>
+<br><a href="https://www.kaggle.com/mtax687/l2-regularization-of-neural-network-using-numpy">Help for implementing L2 regularization</a></br>
+<br><a href="https://medium.freecodecamp.org/building-a-3-layer-neural-network-from-scratch-99239c4af5d3">Understanding how to implement backpropagation</a></br>  
+<br>Collaborated with Kevin Rodrigues and Dharmit Dalvi on splitting the dataset to implement 5 fold</br>
+<br>Collaborated with Paritosh Shirodkar on generating the accuracy vs aplha plot</br>
+<hr>
+</div>
+</body>
+</html>
