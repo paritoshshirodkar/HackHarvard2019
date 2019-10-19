@@ -31,7 +31,6 @@ def meme_generator():
 
         result = {
             "response": 'success',
-            "keywords": important_words,
             "meme_urls": result
         }
         return (jsonify(result), 200)
