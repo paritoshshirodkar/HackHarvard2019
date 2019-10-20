@@ -10,13 +10,13 @@ def remove_punctuation(text):
     return regex.sub('',text)
 
 def load_english_words():
-    with open('words_alpha.txt') as word_file:
+    with open('/rodrigueskevin2/HeackHarvard2019/words_alpha.txt') as word_file:
         valid_words = set(word_file.read().lower().split())
     
     return valid_words
 
 def load_stop_words():
-    with open('stop_words.txt') as word_file:
+    with open('/rodrigueskevin2/HeackHarvard2019/stop_words.txt') as word_file:
         valid_words = set(word_file.read().lower().split())
     
     return valid_words
