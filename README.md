@@ -23,3 +23,6 @@ https://developer.chrome.com/extensions/getstarted
 ```
 
 We have leveraged Google Cloud Platform to host our API (developed using Flask) which computes the term frequency and scrapes memes from giphy.com and reddit
+
+
+HTMLTextAPI.py corresponds to our Flask based API.
