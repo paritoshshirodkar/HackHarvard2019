@@ -17,7 +17,9 @@ Want to work? Challenge accepted! If you have this extension enabled, you'll be 
 You will be forced to quit the browser to stop the memes.
 
 Follow the steps mentioned here to enable developer mode in Google Chrome and see the extension in action
+All files pertaining to extension are in Amuze Me/ 
 ```
 https://developer.chrome.com/extensions/getstarted
 ```
 
+We have leveraged Google Cloud Platform to host our API (developed using Flask) which computes the term frequency and scrapes memes from giphy.com and reddit
