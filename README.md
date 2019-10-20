@@ -7,7 +7,7 @@ My teammates and I thought a great idea for the hackathon would be to make peopl
 
 ## Presenting Amuse Me a Chrome extension designed to show you memes based on your current webpage!
 
-We do this by computing the most frequent words from your current webpage, elimiinating the stop words. 
+We do this by computing the most frequent words from your current webpage, eliminating the stop words. 
 Based on the top 5 words we scrape funny memes and display it in a browser pop-up.
 
 
