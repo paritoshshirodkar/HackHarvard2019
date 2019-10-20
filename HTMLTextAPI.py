@@ -29,11 +29,14 @@ def meme_generator():
             for url in meme_list[i]:
                 result.append(url)
 
-        result = {
+        output = {
             "response": 'success',
             "meme_urls": result
         }
-        return (jsonify(result), 200)
+        return (output, 200)
+	else:
+		print(request.method)
+	
 
 
 if __name__ == '__main__':
