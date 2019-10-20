@@ -22,7 +22,10 @@ All files pertaining to extension are in Amuze Me/
 https://developer.chrome.com/extensions/getstarted
 ```
 
+## Tech Stack
+
 We have leveraged Google Cloud Platform to host our API (developed using Flask) which computes the term frequency and scrapes memes from giphy.com and reddit
 
-
 HTMLTextAPI.py corresponds to our Flask based API.
+
+The extension itself is build using Javascript but other components of the project are developed using python.
