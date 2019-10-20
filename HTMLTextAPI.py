@@ -1,8 +1,9 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 import pandas as pd
 import json
 import os
-import urllib, json
+import urllib
+import json
 import urllib.request
 import html2text
 from helper import give_top_words, get_meme_urls
@@ -11,6 +12,7 @@ app = Flask(__name__)
 
 @app.route('/meme_generator', methods=['GET', 'POST'])
 def meme_generator():
+    print("1", request.method)
     if request.method == 'POST':
         request_json = request.get_json(force=True)
         unclean_input = pd.DataFrame(request_json, index=[0])
@@ -28,15 +30,13 @@ def meme_generator():
         for i in range(len(meme_list)):
             for url in meme_list[i]:
                 result.append(url)
-
-        output = {
-            "response": 'success',
-            "meme_urls": result
-        }
-        return (output, 200)
-	else:
-		print(request.method)
-	
+        l = []
+        output = {"response": 'success',"meme_urls": result}
+        l.append(output)
+        return Response(json.dumps(l))
+    else:
+        print(request.method)
+        return jsonify({"code": 500, "message": "Not working"})
 
 
 if __name__ == '__main__':
