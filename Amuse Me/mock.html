@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<body>
+    <div class="distract_popup" style = "position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.3); z-index: 1000000">
+            <div class="popup_content">
+                <img src="https://i.redd.it/otmpy3ayclsz.jpg" style = "position: absolute; top: 15%; left: 35%; width: 30%; height: 70%"></img>
+                <button id="close_button" style = "position: absolute; top: 5%; left: 90%" onclick="var paras = document.getElementsByClassName('distract_popup'); while(paras[0]) {document.getElementsByTagName('body')[0].removeChild(paras[0]);}">&times;</button>
+            </div>
+    </div>
+</body>
+
+
+<img src="'+content+''" style = "position: absolute; top: 15%; left: 35%; width: 30%; height: 70%"></img>
