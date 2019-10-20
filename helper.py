@@ -10,13 +10,13 @@ def remove_punctuation(text):
     return regex.sub('',text)
 
 def load_english_words():
-    with open('/rodrigueskevin2/HeackHarvard2019/words_alpha.txt') as word_file:
+    with open('/home/rodrigueskevin2/HackHarvard2019/words_alpha.txt') as word_file:
         valid_words = set(word_file.read().lower().split())
     
     return valid_words
 
 def load_stop_words():
-    with open('/rodrigueskevin2/HeackHarvard2019/stop_words.txt') as word_file:
+    with open('/home/rodrigueskevin2/HackHarvard2019/stop_words.txt') as word_file:
         valid_words = set(word_file.read().lower().split())
     
     return valid_words
@@ -68,7 +68,7 @@ def give_top_words(text):
 def get_meme_urls(search_term):
     search_term = search_term.replace(' ', '+')
     data = json.loads(urllib.request.urlopen(
-        "http://api.giphy.com/v1/gifs/search?q=" + search_term + "&api_key=Dz1Ij8dpmMBrMy9Ayxmte4vUQifziIZf&limit=5").read())
+        "http://api.giphy.com/v1/gifs/search?q=" + search_term + "&api_key=Dz1Ij8dpmMBrMy9Ayxmte4vUQifziIZf&limit=5").read().decode('utf-8'))
     result = json.dumps(data, sort_keys=True, indent=4)
     r = []
     gifs = json.loads(result)
